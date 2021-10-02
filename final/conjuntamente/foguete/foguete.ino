@@ -1,14 +1,16 @@
 #include <SPI.h>
 #include <RF24.h>
 #include <SD.h>
+#include "nRF24L01.h"
 
 // LEDs para teste
 #define LED0 4
+#define CS_PIN 8
 
 File myFile;
 
 // Pinos CE e CSN
-RF24 radio(7, 8);
+RF24 radio(9, 10);
 bool releaseParachute;
 
 const byte endereco[][6] = {"1node", "2node"};
@@ -20,7 +22,7 @@ void setup() {
   digitalWrite(LED0, LOW);
 
   Serial.print("Initializing SD card...");
-  while(!SD.begin(4)) {
+  while(!SD.begin(CS_PIN)) {
     Serial.println("Initialization failed!");
     delay(100);
   }
@@ -41,6 +43,7 @@ void setup() {
   }
   // Inicializa a comunicação com o modulo de rádio
   radio.begin();
+  radio.setAutoAck(false);
 
   // Define o endereço do transmissor
   radio.openWritingPipe(endereco[0]);
@@ -51,35 +54,36 @@ void setup() {
 }
 
 void sendMessage(float time, float altitude, float temperature, float acelerometer) {
-  char content[40];
+  String str;
   
-  sprintf(content, "%.3f, %.3f, %.3f, %.3f\n", time, altitude, temperature, acelerometer);
+  str = String(time,3) + "," + String(altitude,3) + "," + String(temperature,3) + "," + String(acelerometer,3) + "\n";
   
-  radio.write(&content, sizeof(content));
+  radio.write(&str, sizeof(str));
 }
 
 float altitude() {
-  return 100.5;
+  return 42.1;
 }
 
 float temperature() {
-  return 21;
+  return 42.1;
 }
 
 float acelerometer() {
-  return 31.5;
+  return 42.1;
 }
 
 void writeOnSD(float time, float altitude, float temperature, float acelerometer) {
-  char string[40];
+  String str;
   myFile = SD.open("data.txt", FILE_WRITE);
-  
+
   if(myFile) {
     Serial.print("Writing...");
 
-    sprintf(string, "%.3f, %.3f, %.3f, %.3f\n", time, altitude, temperature, acelerometer);
-    
-    myFile.print(string);
+    str = String(time,3) + "," + String(altitude,3) + "," + String(temperature,3) + "," + String(acelerometer,3) + "\n";
+
+    Serial.println(str);
+    myFile.println(str);
     myFile.close();
 
     Serial.println("Done.");
