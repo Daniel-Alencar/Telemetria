@@ -8,8 +8,7 @@
 #include <SPI.h>
 #include <SD.h>
 
-#define CS_PIN 10
-
+#define CS_PIN 8
 File myFile;
 
 void setup() {
@@ -20,7 +19,6 @@ void setup() {
   Serial.print("Initializing SD card...");
   while (!SD.begin(CS_PIN)) {
     Serial.println("Initialization failed!");
-    //while(1);
   }
   Serial.println("Initialization done.");
 
@@ -40,18 +38,16 @@ void setup() {
 }
 
 void writeOnSD(float time, float altitude, float temperature, float acelerometer) {
-  //char string[40];
   String str;
   myFile = SD.open("data.txt", FILE_WRITE);
 
   if(myFile) {
     Serial.print("Writing...");
 
-    //sprintf(string, "%.3lu, %lu, %f, %f, %f\n", time, altitude, temperature, acelerometer, 4, 4/1.0);
-    str = String(time,3) + "," + String(altitude,3) + "," + String(temperature,3) + "," + String(acelerometer,3);
+    str = String(time,3) + "," + String(altitude,3) + "," + String(temperature,3) + "," + String(acelerometer,3) + "\n";
 
     Serial.println(str);
-    myFile.print(str);
+    myFile.println(str);
     myFile.close();
 
     Serial.println("Done.");
