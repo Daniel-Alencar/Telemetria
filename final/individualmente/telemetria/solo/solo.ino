@@ -1,5 +1,6 @@
 #include <SPI.h>
 #include <RF24.h>
+#include "nRF24L01.h"
 
 // Instância de radio definindo pinos CE (porta D7) e CSN (porta D8)
 RF24 radio(9, 10);
@@ -19,6 +20,8 @@ void setup() {
 
   // Inicializa a comunicação com o modulo de rádio
   radio.begin();
+  // Desativar pacotes de reconhecimento automático
+  radio.setAutoAck(false);
 
   // Define o endereço deste dispositivo
   radio.openWritingPipe(endereco[1]);

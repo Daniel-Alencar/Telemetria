@@ -1,6 +1,6 @@
 #include <SPI.h>
 #include <RF24.h>
-#include <SD.h>
+#include "nRF24L01.h"
 
 // Pinagem de LEDs para teste
 #define LED0 4
@@ -24,6 +24,8 @@ void setup() {
 
   // Inicializa a comunicação com o modulo de rádio
   radio.begin();
+  // Desativar pacotes de reconhecimento automático
+  radio.setAutoAck(false);
 
   // Define o endereço deste dispositivo
   radio.openWritingPipe(endereco[0]);
