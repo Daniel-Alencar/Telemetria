@@ -1,10 +1,11 @@
 #include <SPI.h>
 #include <RF24.h>
+#include "nRF24L01.h"
 
 #define PARACHUTE_TIME 20000
 
 // Pinos CE e CSN
-RF24 radio(7, 8);
+RF24 radio(9, 10);
 bool releaseParachute = false;
 
 const byte endereco[][6] = {"1node", "2node"};
@@ -15,6 +16,7 @@ void setup() {
 
   // Inicia a comunicação com o modulo
   radio.begin();
+  radio.setAutoAck(false);
 
   // Define o endereço do receptor (data pipe 0)
   // Define o endereço do transmissor
