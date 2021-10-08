@@ -2,9 +2,7 @@
 #include <RF24.h>
 #include "nRF24L01.h"
 
-// LEDs para teste
-#define ON_BUTTON 4
-#define OFF_BUTTON 5
+#define LED 4
 
 // Pinos CE e CSN
 RF24 radio(9, 10);
@@ -13,45 +11,45 @@ bool buttons[2];
 bool buttons[0] = false;
 bool buttons[1] = false;
 
-bool receivedMessage = false;
+bool receivedMessage = true;
 
 const byte endereco[][6] = {"1node", "2node"};
 
 void setup() {
+  // Inicia a comunicação serial
   Serial.begin(9600);
 
-  pinMode(ON_BUTTON, INPUT);
-  pinMode(OFF_BUTTON, INPUT);
+  digitalWrite(LED, LOW);
 
-  // Inicializa a comunicação com o modulo de rádio
+  // Inicia a comunicação com o modulo
   radio.begin();
   radio.setAutoAck(false);
 
+  // Define o endereço do receptor (data pipe 0)
   // Define o endereço do transmissor
-  radio.openWritingPipe(endereco[0]);
-  radio.openReadingPipe(1, endereco[1]);
+  radio.openWritingPipe(endereco[1]);
+  radio.openReadingPipe(1, endereco[0]);
 
-  // Prepara para o modo de envio
-  radio.stopListening();
+  // Entra no modo de recebimento
+  radio.startListening();
 }
 
 void loop() {
-  buttons[0] = digitalRead(ON_BUTTON);
-  buttons[1] = digitalRead(OFF_BUTTON);
-  
-  radio.write(&buttons, sizeof(buttons));
-  radio.startListening();
-
-  Serial.println("ANTES DO IF--------------------------");
   if(radio.available()) {
 
-    radio.read(&receivedMessage, sizeof(receivedMessage));
+    // Se recebeu algum pacote, lê o conteudo na variável
+    radio.read(&buttons, sizeof(buttons));
+    // Imprime o que foi recebido
+    Serial.println("buttons[0] == " + buttons[0] + " | buttons[1] == " + buttons[1]);
 
-    if(receivedMessage){
-      Serial.println("The message was received!");
-    } else {
-      Serial.println("The message was not received!");
+    radio.stopListening();
+    radio.write(&receivedMessage, sizeof(bool));
+    radio.startListening();
+
+    if(buttons[0] && !buttons[1]) {
+      digitalWrite(LED, HIGH);
+    } else if(!buttons[0] && buttons[1]) {
+      digitalWrite(LED, LOW);
     }
   }
-  radio.stopListening();
 }
