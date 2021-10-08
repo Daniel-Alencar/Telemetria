@@ -40,10 +40,7 @@ void loop() {
     // Se recebeu algum pacote, lê o conteudo na variável
     radio.read(&buttons, sizeof(buttons));
     // Imprime o que foi recebido
-    Serial.print("buttons[0] == ");
-    Serial.print(buttons[0]);
-    Serial.print(" / buttons[1] == ");
-    Serial.println(buttons[1]);
+    Serial.println("buttons[0] == " + buttons[0] + " | buttons[1] == " + buttons[1]);
 
     radio.stopListening();
     radio.write(&receivedMessage, sizeof(bool));

@@ -46,18 +46,12 @@ void loop() {
   if(radio.available()) {
 
     radio.read(&receivedMessage, sizeof(receivedMessage));
-    Serial.println(receivedMessage);
 
     if(receivedMessage){
       Serial.println("The message was received!");
-      delay(2000);
-
     } else {
-
       Serial.println("The message was not received!");
-      delay(2000);
     }
-
   }
   radio.stopListening();
 }
