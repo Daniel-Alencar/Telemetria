@@ -102,12 +102,14 @@ void loop() {
   sendMessage(data[0], data[1], data[2], data[3]);
 
   radio.startListening();
+  Serial.println("ANTES DO IF--------------------------");
   if(radio.available()) {
     radio.read(&releaseParachute, sizeof(releaseParachute));
-
+    Serial.println(releaseParachute);
     if(releaseParachute){
       Serial.println("Ligando Led 0!");
-      digitalWrite(LED0, HIGH);
+      digitalWrite(LED0, HIGH); 
+      delay(2000);
     }
   }
   radio.stopListening();

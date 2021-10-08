@@ -2,7 +2,7 @@
 #include <RF24.h>
 #include "nRF24L01.h"
 
-#define PARACHUTE_TIME 20000
+#define PARACHUTE_TIME 40000
 
 // Pinos CE e CSN
 RF24 radio(9, 10);
@@ -37,11 +37,14 @@ void loop() {
     Serial.println(recebido);
   }
 
+  Serial.println(millis());
   if(millis() > PARACHUTE_TIME) {
     releaseParachute = true;
+    Serial.println("ENTROU------------");
 
     radio.stopListening();
-    radio.write(&releaseParachute, sizeof(releaseParachute));
+    if(radio.write(&releaseParachute, sizeof(releaseParachute))) 
+        Serial.println("ENVIOU---------------");
     radio.startListening();
   }
 }
