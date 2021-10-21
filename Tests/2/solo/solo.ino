@@ -9,10 +9,7 @@
 // Pinos CE e CSN
 RF24 radio(9, 10);
 
-bool buttons[2];
-bool buttons[0] = false;
-bool buttons[1] = false;
-
+bool buttons[] = {false, false};
 bool receivedMessage = false;
 
 const byte endereco[][6] = {"1node", "2node"};
