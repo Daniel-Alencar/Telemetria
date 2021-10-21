@@ -26,6 +26,8 @@ void setup() {
   // Inicializa a comunicação com o modulo de rádio
   radio.begin();
   radio.setAutoAck(false);
+  radio.setPALevel(RF24_PA_HIGH);
+  radio.setDataRate(RF24_1MBPS);
 
   // Define o endereço do transmissor
   radio.openWritingPipe(endereco[0]);
