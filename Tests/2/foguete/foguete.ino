@@ -22,7 +22,8 @@ void setup() {
   radio.begin();
   radio.setAutoAck(false);
   radio.setPALevel(RF24_PA_HIGH);
-  radio.setDataRate(RF24_1MBPS);
+  radio.setDataRate(RF24_250KBPS);
+  radio.setChannel(0);
 
   // Define o endereço do receptor (data pipe 0)
   // Define o endereço do transmissor
