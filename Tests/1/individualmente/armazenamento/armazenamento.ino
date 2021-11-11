@@ -1,7 +1,7 @@
 /*
   The model file will be:
   Time, Altitude, Temperature, Acelerometer
-  42.1, 42.1, 42.1, 42.1
+  10042.101, 42.1, 42.1, 42.1
 
 */
 
@@ -55,6 +55,8 @@ void writeOnSD(float time, float altitude, float temperature, float acelerometer
     Serial.println("Error opening data.txt");
   }
 }
+
+// 60000000 (valor máximo para millis())
 
 float altitude() {
   return 42.1;
