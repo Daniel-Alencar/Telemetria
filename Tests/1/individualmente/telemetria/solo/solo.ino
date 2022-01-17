@@ -26,6 +26,7 @@ void setup() {
   // Define o endereço deste dispositivo
   radio.openWritingPipe(endereco[1]);
   // Define o endereço de onde será "escutado" os dados
+  // Define também qual (dos 6 pipes disponíveis) iremos usar para a comunicação
   radio.openReadingPipe(1, endereco[0]);
   // Prepara este dispositivo para enviar informações
   radio.stopListening();
