@@ -2,10 +2,12 @@
   O NRF24L01 trabalha com um tamanho máximo de 32 bytes para cada pacote enviado/recebido
   Sendo assim, optamos por enviar:
   Tempo, Altitude, AltitudeFk, AY, Temperatura
+  000010,00001,00001,010,000.
+
   Com um total de:
   6+1+5+1+5+1+3+1+3+1 = 27 Bytes
 */
- 
+
 #include <SPI.h>
 #include <RF24.h>
 #include "nRF24L01.h"
@@ -19,41 +21,56 @@ bool receivedMessage = false;
 char message[50];
 const byte endereco[][6] = {"1node", "2node", "3node"};
 
-void longRangeSettings() {
-  radio.begin();
-  radio.setAutoAck(false);
-  radio.setPALevel(RF24_PA_HIGH);
-  radio.setDataRate(RF24_250KBPS);
-  radio.setChannel(0);
+void longRangeSettings()
+{
+  if (radio.begin())
+  {
+    radio.setAutoAck(false);
+    radio.setPALevel(RF24_PA_HIGH);
+    radio.setDataRate(RF24_250KBPS);
+    radio.setChannel(0);
+    return true
+  }
+  return false;
 }
 
-void lowRangeSettings() {
-  radio.begin();
-  radio.setAutoAck(false);
-  radio.setPALevel(RF24_PA_MIN);
-  radio.setDataRate(RF24_1MBPS);
-  radio.setChannel(0);
+void lowRangeSettings()
+{
+  if (radio.begin())
+  {
+    radio.setAutoAck(false);
+    radio.setPALevel(RF24_PA_MIN);
+    radio.setDataRate(RF24_1MBPS);
+    radio.setChannel(0);
+    return true
+  }
+  return false;
 }
 
-void setAddress(int thisDevice, int []otherDevices) {
+void setAddress(int thisDevice, int anotherDevice)
+{
   radio.openWritingPipe(endereco[thisDevice]);
-  radio.openReadingPipe(1, endereco[otherDevices[0]]);
+  radio.openReadingPipe(1, endereco[anotherDevice]);
 }
 
-void readMessage() {
+void readMessage()
+{
   radio.startListening();
   radio.read(&message, sizeof(message));
 }
 
-void sendMessage(char *message) {
+void sendMessage(char *message)
+{
   radio.stopListening();
   radio.write(message, sizeof(*message));
 }
 
-bool available() {
+bool available()
+{
   return radio.available();
 }
 
-bool isPlusVariant() {
+bool isPlusVariant()
+{
   return radio.isPVariant();
 }
