@@ -21,7 +21,7 @@ bool receivedMessage = false;
 char message[50];
 const byte endereco[][6] = {"1node", "2node", "3node"};
 
-void longRangeSettings()
+bool longRangeSettings()
 {
   if (radio.begin())
   {
@@ -29,12 +29,12 @@ void longRangeSettings()
     radio.setPALevel(RF24_PA_HIGH);
     radio.setDataRate(RF24_250KBPS);
     radio.setChannel(0);
-    return true
+    return true;
   }
   return false;
 }
 
-void lowRangeSettings()
+bool lowRangeSettings()
 {
   if (radio.begin())
   {
@@ -42,7 +42,7 @@ void lowRangeSettings()
     radio.setPALevel(RF24_PA_MIN);
     radio.setDataRate(RF24_1MBPS);
     radio.setChannel(0);
-    return true
+    return true;
   }
   return false;
 }
@@ -62,7 +62,7 @@ void readMessage()
 void sendMessage(char *message)
 {
   radio.stopListening();
-  radio.write(message, sizeof(*message));
+  radio.write(message, sizeof(message));
 }
 
 bool available()

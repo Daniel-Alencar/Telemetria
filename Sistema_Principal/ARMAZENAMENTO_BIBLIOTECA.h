@@ -25,7 +25,7 @@ void writeOnSD(String message)
 
   if (myFile)
   {
-    myFile.println(str);
+    myFile.println(message);
     myFile.close();
   }
 }
