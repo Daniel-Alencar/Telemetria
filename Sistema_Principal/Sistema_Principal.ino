@@ -2,6 +2,27 @@
 /* ===== PROGRAMA PRINCIPAL : ATMEGA328P + TELEMETRIA + CARTÃO SD + EXPERIMENTO ===== */
 /* ================================================================================== */
 
+/*
+    Pinagem:
+    - Pino no arduino (Pino no ATMEGA328)
+    
+    - 11 (17): MOSI (NRF + SD)
+    - 12 (18): MISO (NRF + SD)
+    - 13 (19): SCK (NRF + SD)
+    - 10 (16): CSN (NRF)
+    - 09 (15): CE (NRF)
+    - 08 (14): CS_PIN (SD)
+    - 00 (02): RX (Comunicação serial)
+    - 01 (03): TX (Comunicação serial)
+
+    Pinagem opcional?
+    - GND (08): GND do outro ATMEGA
+
+    Dúvidas:
+    - GND do NRF e SD vão para onde (GND do ATMEGA ou outro GND)?
+    - MOSI, MISO e SCK irão ser compartilhados entre o NRF e o SD, né?
+*/
+
 // Declaração de bibliotecas
 #include "NRF24L01_BIBLIOTECA.h"
 #include "ARMAZENAMENTO_BIBLIOTECA.h"

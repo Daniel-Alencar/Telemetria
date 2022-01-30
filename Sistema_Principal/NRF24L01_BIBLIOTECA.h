@@ -16,7 +16,10 @@
 #define ADDRESS_1 1
 #define ADDRESS_2 2
 
-RF24 radio(9, 10);
+#define CE 9
+#define CSN 10
+
+RF24 radio(CE, CSN);
 bool receivedMessage = false;
 char message[50];
 const byte endereco[][6] = {"1node", "2node", "3node"};
