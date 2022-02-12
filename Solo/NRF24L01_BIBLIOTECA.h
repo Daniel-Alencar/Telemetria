@@ -2,7 +2,7 @@
   O NRF24L01 trabalha com um tamanho máximo de 32 bytes para cada pacote enviado/recebido
   Sendo assim, optamos por enviar:
   Altitude(m),AltitudeFK,Velocidade(m/s),VelocidadeFK,Paraquedas
-  000000,000.00,000.00,000.00,000.00,0
+  000.00,000.00,000.00,000.00,0
 
   Com um total de:
   6+1+6+1+6+1+6+1+1 = 29 Bytes

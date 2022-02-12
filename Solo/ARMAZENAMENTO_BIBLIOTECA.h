@@ -1,7 +1,7 @@
 #include <SPI.h>
 #include <SD.h>
 
-#define CS_PIN 8
+#define CS_PIN 10
 File myFile;
 
 bool settingsSD()

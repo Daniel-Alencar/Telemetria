@@ -73,8 +73,8 @@ void setup()
 
 void loop()
 {
-    // Tempo(ms),Altitude(m),AltitudeFKraquedas
-    // 000000,000.00,000.00,0
+    // Tempo(ms),Altitude(m),AltitudeFK,Velocidade(m/s),VelocidadeFK,Paraquedas
+    // 000000,000.00,000.00,000.00,000.00,0
     if (Serial.available() > 0)
     {
         String message = Serial.readString();
