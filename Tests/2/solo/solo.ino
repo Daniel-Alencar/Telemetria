@@ -42,7 +42,7 @@ void loop() {
   radio.write(&buttons, sizeof(buttons));
   radio.startListening();
 
-  Serial.println("ANTES DO IF--------------------------");
+  Serial.println("ANTES DO IF");
   if(radio.available()) {
 
     radio.read(&receivedMessage, sizeof(receivedMessage));

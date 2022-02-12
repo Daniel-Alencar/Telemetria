@@ -30,13 +30,9 @@
 // Declarar frequência do atmega como 16 MHz e do Time Out
 #define timeOut 10
 
-// Configurações da flag
-byte flags = B11111111; // Paraquedas, BMP, MPU, NRF24L01, SD
-
-#define set_bit(flag, bit) (flag & (1 << bit))
-#define reset_bit(flag, bit) (flag | !(1 << bit))
-#define updateFlag(value, bit) (value ? set_bit(flags, bit) : reset_bit(flags, bit))
-#define verifyFlag(flag, bit) ((flag & (1 << bit)) ? true : false)
+// Configurações da flag Paraquedas e do NRF24L01
+char parachute = '0';
+int nrf = 1;
 
 void setup()
 {
@@ -48,7 +44,6 @@ void setup()
     {
         if (i >= timeOut)
         {
-            updateFlag(false, 0);
             break;
         }
         i++;
@@ -59,13 +54,13 @@ void setup()
     {
         if (i >= timeOut)
         {
-            updateFlag(false, 1);
+            nrf = 0;
             break;
         }
         i++;
     }
 
-    if (verifyFlag(flags, 1))
+    if (nrf)
     {
         setAddress(ADDRESS_0, ADDRESS_1);
     }
@@ -73,54 +68,24 @@ void setup()
 
 void loop()
 {
-    // Tempo(ms),Altitude(m),AltitudeFKraquedas
-    // 000000,000.00,000.00,0
+    // Tempo(ms),Altitude(m),AltitudeFK,VelocidadeFK,Paraquedas
+    // 000000,000.00,000.00,000.00,0
     if (Serial.available() > 0)
     {
         String message = Serial.readString();
 
-        // Concatenação das flags
-        String flagsString = String(flags);
-        String messageWithFlags = String(message) + flagsString[6] + flagsString[7];
-
         // Atualização das flags
-        for (int i = 27; i < 31; i++)
-        {
-            if (messageWithFlags[i] == '1')
-            {
-                set_bit(flags, 31 - i);
-            }
-            else
-            {
-                reset_bit(flags, 31 - i);
-            }
-        }
+        parachute = message[28];
 
         // Verificação do cartão SD
-        if (verifyFlag(flags, 0))
-        {
-            writeOnSD(message);
-        }
+        writeOnSD(message);
 
         // Verificação do NRF24L01
-        if (verifyFlag(flags, 1))
+        if (nrf)
         {
             char str[32];
             message.toCharArray(str, 32);
             sendMessage(str);
         }
     }
-
-    // Talvez implementar
-    /*
-    else {
-        if (verifyFlag(flags, 0)) {
-            writeOnSD("Serial isn't responding!");
-        }
-
-        if (verifyFlag(flags, 1)) {
-            sendMessage("Serial isn't responding!");
-        }
-    }
-    */
 }
