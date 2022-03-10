@@ -1,5 +1,2 @@
 ## Códigos para o sistema de telemetria e armazenamento da Cactus Rockets Design
-
-Sistema embarcado principal: Telemetria e armazenamento
-
-Sistema de recuperação: MPU6050 e BMP280
+[Relatório completo do código principal e dos testes realizados](https://docs.google.com/document/d/1vUcy1MFpRjO4CsjVuB8I2oPxqQfW-dvosC1PAkjQe9U/edit?usp=sharing).
