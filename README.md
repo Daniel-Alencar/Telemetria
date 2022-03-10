@@ -3,4 +3,3 @@
 Sistema embarcado principal: Telemetria e armazenamento
 
 Sistema de recuperação: MPU6050 e BMP280
-

@@ -1,5 +1,5 @@
 // Declaração de bibliotecas
-#include "NRF24L01_BIBLIOTECA.h"
+#include "libs/NRF24L01_BIBLIOTECA.h"
 
 void setup() {
   Serial.begin(9600);

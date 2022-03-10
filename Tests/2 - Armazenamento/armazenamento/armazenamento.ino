@@ -1,8 +1,7 @@
 /*
-  The model file will be:
+  Modelo do arquivo:
   Time, Altitude, Temperature, Acelerometer
-  10042.101, 42.1, 42.1, 42.1
-
+  10042.101,42.1,42.1,42.1
 */
 
 #include <SPI.h>
@@ -55,8 +54,6 @@ void writeOnSD(float time, float altitude, float temperature, float acelerometer
     Serial.println("Error opening data.txt");
   }
 }
-
-// 60000000 (valor máximo para millis())
 
 float altitude() {
   return 42.1;

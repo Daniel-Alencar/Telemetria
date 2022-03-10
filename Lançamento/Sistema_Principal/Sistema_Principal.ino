@@ -24,8 +24,8 @@
 */
 
 // Declaração de bibliotecas
-#include "NRF24L01_BIBLIOTECA.h"
-#include "ARMAZENAMENTO_BIBLIOTECA.h"
+#include "libs/NRF24L01_BIBLIOTECA.h"
+#include "libs/ARMAZENAMENTO_BIBLIOTECA.h"
 
 // Declarar frequência do atmega como 16 MHz e do Time Out
 #define timeOut 10
