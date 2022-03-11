@@ -12,13 +12,13 @@ void loop() {
 
     Serial.print(str);
 
-    if(str.equals("111111,111.11,111.11,111.11,1")) {
+    if(str == "111111,111.11,111.11,111.11,1") {
       digitalWrite(led, HIGH);
-      Serial.println("Aqui!");
+      Serial.println("Aqui1");
     }
-    if(str.equals("000000,000.00,000.00,000.00,0")){
+    if(str == "000000,000.00,000.00,000.00,0"){
       digitalWrite(led,LOW);
-      Serial.println("Aqui embaixo!");
+      Serial.println("Aqui2");
     }
   }
 }
