@@ -14,28 +14,24 @@
     - 10 (16): CS_PIN (SD)
     - 00 (02): RX (Comunicação serial)
     - 01 (03): TX (Comunicação serial)
-
-    Pinagem opcional?
-    - GND (08): GND do outro ATMEGA
-
-    Dúvidas:
-    - GND do NRF e SD vão para onde (GND do ATMEGA ou outro GND)?
-    - MOSI, MISO e SCK irão ser compartilhados entre o NRF e o SD, né?
 */
 
 // Declaração de bibliotecas
 #include "libs/NRF24L01_BIBLIOTECA.h"
 #include "libs/ARMAZENAMENTO_BIBLIOTECA.h"
+#include <SoftwareSerial.h>
+SoftwareSerial monitorSerial(5, 6);
 
 // Declarar frequência do atmega como 16 MHz e do Time Out
 #define timeOut 10
 
 // Configurações da flag Paraquedas e do NRF24L01
 char parachute = '0';
-int nrf = 1;
+// int nrf = 1;
 
 void setup()
 {
+    monitorSerial.begin(9600);
     Serial.begin(9600);
     int i = 0;
 
@@ -49,21 +45,21 @@ void setup()
         i++;
     }
 
-    i = 0;
-    while (!longRangeSettings())
-    {
-        if (i >= timeOut)
-        {
-            nrf = 0;
-            break;
-        }
-        i++;
-    }
+    // i = 0;
+    // while (!longRangeSettings())
+    // {
+    //     if (i >= timeOut)
+    //     {
+    //         nrf = 0;
+    //         break;
+    //     }
+    //     i++;
+    // }
 
-    if (nrf)
-    {
-        setAddress(ADDRESS_0, ADDRESS_1);
-    }
+    // if (nrf)
+    // {
+    //     setAddress(ADDRESS_0, ADDRESS_1);
+    // }
 }
 
 void loop()
@@ -73,6 +69,7 @@ void loop()
     if (Serial.available() > 0)
     {
         String message = Serial.readString();
+        monitorSerial.println(message);
 
         // Atualização das flags
         parachute = message[28];
@@ -81,11 +78,11 @@ void loop()
         writeOnSD(message);
 
         // Verificação do NRF24L01
-        if (nrf)
-        {
-            char str[32];
-            message.toCharArray(str, 32);
-            sendMessage(str);
-        }
+        // if (nrf)
+        // {
+        //     char str[32];
+        //     message.toCharArray(str, 32);
+        //     sendMessage(str);
+        // }
     }
 }
