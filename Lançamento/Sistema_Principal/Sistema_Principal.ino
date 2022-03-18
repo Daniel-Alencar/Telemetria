@@ -66,10 +66,11 @@ void loop()
 {
     // Tempo(ms),Altitude(m),AltitudeFK,VelocidadeFK,Paraquedas
     // 000000,000.00,000.00,000.00,0
-    if (Serial.available() > 0)
+    
+    if (monitorSerial.available() > 0)
     {
-        String message = Serial.readString();
-        monitorSerial.println(message);
+        String message = monitorSerial.readStringUntil('\n');
+        Serial.println(message);
 
         // Atualização das flags
         parachute = message[28];
