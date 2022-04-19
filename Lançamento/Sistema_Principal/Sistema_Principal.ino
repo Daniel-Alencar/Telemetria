@@ -85,4 +85,11 @@ void loop()
             sendMessage(str);
         }
     }
+
+    // if(available()) {
+    //     readMessage();
+    //     if(message == "Ativa!") {
+    //         monitorSerial.println(message);
+    //     }
+    // }
 }
