@@ -30,8 +30,8 @@ int nrf = 1;
 
 void setup()
 {
-    monitorSerial.begin(9600);
-    Serial.begin(9600);
+    monitorSerial.begin(115200);
+    Serial.begin(115200);
     int i = 0;
 
     // Configurações da telemetria e do cartão SD.

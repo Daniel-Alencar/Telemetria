@@ -23,12 +23,12 @@
 bool notSent = false;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   // pinMode(ON_BUTTON, INPUT);
 
   // Inicializa a comunicação com o modulo de rádio
-  longRangeSettings();
+  lowRangeSettings();
   // Define o endereço do transmissor
   setAddress(ADDRESS_1, ADDRESS_0);
 }
