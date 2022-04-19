@@ -22,12 +22,11 @@
 #include <SoftwareSerial.h>
 SoftwareSerial monitorSerial(5, 6);
 
-// Declarar frequência do atmega como 16 MHz e do Time Out
 #define timeOut 10
 
 // Configurações da flag Paraquedas e do NRF24L01
 char parachute = '0';
-// int nrf = 1;
+int nrf = 1;
 
 void setup()
 {
@@ -45,21 +44,21 @@ void setup()
         i++;
     }
 
-    // i = 0;
-    // while (!longRangeSettings())
-    // {
-    //     if (i >= timeOut)
-    //     {
-    //         nrf = 0;
-    //         break;
-    //     }
-    //     i++;
-    // }
+    i = 0;
+    while (!longRangeSettings())
+    {
+        if (i >= timeOut)
+        {
+            nrf = 0;
+            break;
+        }
+        i++;
+    }
 
-    // if (nrf)
-    // {
-    //     setAddress(ADDRESS_0, ADDRESS_1);
-    // }
+    if (nrf)
+    {
+        setAddress(ADDRESS_0, ADDRESS_1);
+    }
 }
 
 void loop()
@@ -79,11 +78,11 @@ void loop()
         writeOnSD(message);
 
         // Verificação do NRF24L01
-        // if (nrf)
-        // {
-        //     char str[32];
-        //     message.toCharArray(str, 32);
-        //     sendMessage(str);
-        // }
+        if (nrf)
+        {
+            char str[32];
+            message.toCharArray(str, 32);
+            sendMessage(str);
+        }
     }
 }
