@@ -10,14 +10,15 @@
 
 #include <SPI.h>
 #include <RF24.h>
+#include <string.h>
 #include "nRF24L01.h"
 
 #define ADDRESS_0 0
 #define ADDRESS_1 1
 #define ADDRESS_2 2
 
-#define CE 7
-#define CSN 8
+#define CE 8
+#define CSN 7
 
 RF24 radio(CE, CSN);
 bool receivedMessage = false;
@@ -26,46 +27,28 @@ const byte endereco[][6] = {"1node", "2node", "3node"};
 
 bool longRangeSettings()
 {
-  if (radio.begin())
-  {
-    radio.setAutoAck(false);
-    radio.setPALevel(RF24_PA_HIGH);
-    radio.setDataRate(RF24_250KBPS);
-    radio.setChannel(0);
-    return true;
-  }
-  return false;
+  radio.begin();
+  radio.setAutoAck(false);
+  radio.setPALevel(RF24_PA_HIGH);
+  radio.setDataRate(RF24_250KBPS);
+  radio.setChannel(0);
+  return true;
 }
 
 bool lowRangeSettings()
 {
-  if (radio.begin())
-  {
-    radio.setAutoAck(false);
-    radio.setPALevel(RF24_PA_MIN);
-    radio.setDataRate(RF24_1MBPS);
-    radio.setChannel(0);
-    return true;
-  }
-  return false;
+  radio.begin();
+  radio.setAutoAck(false);
+  radio.setPALevel(RF24_PA_MIN);
+  radio.setDataRate(RF24_1MBPS);
+  radio.setChannel(0);
+  return true;
 }
 
 void setAddress(int thisDevice, int anotherDevice)
 {
   radio.openWritingPipe(endereco[thisDevice]);
   radio.openReadingPipe(1, endereco[anotherDevice]);
-}
-
-void readMessage()
-{
-  radio.startListening();
-  radio.read(&message, sizeof(message));
-}
-
-void sendMessage(char *message)
-{
-  radio.stopListening();
-  radio.write(message, sizeof(message));
 }
 
 bool available()
@@ -76,4 +59,29 @@ bool available()
 bool isPlusVariant()
 {
   return radio.isPVariant();
+}
+
+void readMessage()
+{
+  radio.startListening();
+
+  if(available()) {
+    radio.read(&message, strlen(message));
+    Serial.print(message);
+    Serial.println(">> readMessage");
+  }
+}
+
+bool sendMessage()
+{
+  radio.stopListening();
+
+  char otherMessage[33] = "000000,000.00,000.00,000.00,0";
+  return radio.write(otherMessage, strlen(otherMessage) * sizeof(char));
+
+  // char otherMessage[33] = "000000,000.00,000.00,000.00,0";
+  // return radio.write(&otherMessage, strlen(otherMessage) * sizeof(char));
+
+  // String str = "000000,000.00,000.00,000.00,0";
+  // return radio.write(&str, sizeof(str));
 }

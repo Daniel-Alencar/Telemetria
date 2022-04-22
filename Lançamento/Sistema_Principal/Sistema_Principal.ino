@@ -30,19 +30,19 @@ int nrf = 1;
 
 void setup()
 {
-    monitorSerial.begin(115200);
-    Serial.begin(115200);
-    int i = 0;
+    monitorSerial.begin(9600);
+    Serial.begin(9600);
+    // int i = 0;
 
     // Configurações da telemetria e do cartão SD.
-    while (!settingsSD())
-    {
-        if (i >= timeOut)
-        {
-            break;
-        }
-        i++;
-    }
+    // while (!settingsSD())
+    // {
+    //     if (i >= timeOut)
+    //     {
+    //         break;
+    //     }
+    //     i++;
+    // }
 
     i = 0;
     while (!longRangeSettings())
@@ -75,14 +75,14 @@ void loop()
         parachute = message[28];
 
         // Verificação do cartão SD
-        writeOnSD(message);
+        // writeOnSD(message);
 
         // Verificação do NRF24L01
         if (nrf)
         {
-            char str[32];
-            message.toCharArray(str, 32);
-            sendMessage(str);
+            // char str[32];
+            // message.toCharArray(str, 32);
+            sendMessage();
         }
     }
 
