@@ -21,11 +21,7 @@
 void setup() {
   Serial.begin(9600);
 
-  // pinMode(ON_BUTTON, INPUT);
-
-  // Inicializa a comunicação com o modulo de rádio
   longRangeSettings();
-  // Define o endereço do transmissor
   setAddress(ADDRESS_1, ADDRESS_0);
 }
 
