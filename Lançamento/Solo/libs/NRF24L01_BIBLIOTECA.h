@@ -11,7 +11,7 @@
 #include <SPI.h>
 #include <RF24.h>
 #include <string.h>
-#include "nRF24L01.h"
+#include <nRF24L01.h>
 
 #define ADDRESS_0 0
 #define ADDRESS_1 1
@@ -21,27 +21,19 @@
 #define CSN 7
 
 RF24 radio(CE, CSN);
-bool receivedMessage = false;
-char message[50];
 const byte endereco[][6] = {"1node", "2node", "3node"};
 
 bool longRangeSettings()
 {
   radio.begin();
-  radio.setAutoAck(false);
   radio.setPALevel(RF24_PA_HIGH);
-  radio.setDataRate(RF24_250KBPS);
-  radio.setChannel(0);
   return true;
 }
 
 bool lowRangeSettings()
 {
   radio.begin();
-  radio.setAutoAck(false);
   radio.setPALevel(RF24_PA_MIN);
-  radio.setDataRate(RF24_1MBPS);
-  radio.setChannel(0);
   return true;
 }
 
@@ -66,12 +58,12 @@ void readMessage()
   radio.startListening();
 
   if(available()) {
-    int len = radio.getDynamicPayloadSize();
-    Serial.println(len);
+    char text[32] = "";
+    radio.read(&text, sizeof(text));
 
-    radio.read(&message, len);
-    Serial.println(message);
-    Serial.println(">> readMessage");
+    Serial.println(">>");
+    Serial.println(text);
+    Serial.println(">>");
   }
 }
 
@@ -79,12 +71,6 @@ bool sendMessage()
 {
   radio.stopListening();
 
-  char otherMessage[33] = "000000,000.00,000.00,000.00,0";
-  return radio.write(otherMessage, strlen(otherMessage) * sizeof(char));
-
-  // char otherMessage[33] = "000000,000.00,000.00,000.00,0";
-  // return radio.write(&otherMessage, strlen(otherMessage) * sizeof(char));
-
-  // String str = "000000,000.00,000.00,000.00,0";
-  // return radio.write(&str, sizeof(str));
+  const char otherMessage[] = "000000,000.00,000.00,000.00,0";
+  return radio.write(&otherMessage, sizeof(otherMessage));
 }
