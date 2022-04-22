@@ -48,7 +48,7 @@ bool lowRangeSettings()
 void setAddress(int thisDevice, int anotherDevice)
 {
   radio.openWritingPipe(endereco[thisDevice]);
-  radio.openReadingPipe(1, endereco[anotherDevice]);
+  radio.openReadingPipe(0, endereco[anotherDevice]);
 }
 
 bool available()
@@ -66,11 +66,15 @@ void readMessage()
   radio.startListening();
 
   if(available()) {
-    int len = radio.getDynamicPayloadSize();
-    Serial.println(len);
+    int length = 0;
+    length = radio.getDynamicPayloadSize();
+    Serial.println(length);
 
-    radio.read(&message, len);
-    Serial.println(message);
+    char str[30] = "";
+
+    radio.read(&str, 30);
+
+    Serial.println(str); 
     Serial.println(">> readMessage");
   }
 }
@@ -79,12 +83,12 @@ bool sendMessage()
 {
   radio.stopListening();
 
-  char otherMessage[33] = "000000,000.00,000.00,000.00,0";
-  return radio.write(otherMessage, strlen(otherMessage) * sizeof(char));
+  //char otherMessage[32] = "000000,000.00,000.00,000.00,0";
+  //return radio.write(otherMessage, strlen(otherMessage));
 
-  // char otherMessage[33] = "000000,000.00,000.00,000.00,0";
-  // return radio.write(&otherMessage, strlen(otherMessage) * sizeof(char));
+  char otherMessage[32] = "000000,000.00,000.00,000.00,0";
+  return radio.write(&otherMessage, strlen(otherMessage));
 
   // String str = "000000,000.00,000.00,000.00,0";
-  // return radio.write(&str, sizeof(str));
+  // return radio.write(&str, str.length() * sizeof(str));
 }
