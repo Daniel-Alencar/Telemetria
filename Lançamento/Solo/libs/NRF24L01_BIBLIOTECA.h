@@ -3,7 +3,6 @@
   Sendo assim, optamos por enviar:
   Altitude(m),AltitudeFK,Velocidade(m/s),VelocidadeFK,Paraquedas
   000.00,000.00,000.00,000.00,0
-
   Com um total de:
   6+1+6+1+6+1+6+1+1 = 29 Bytes
 */
@@ -17,8 +16,8 @@
 #define ADDRESS_1 1
 #define ADDRESS_2 2
 
-#define CE 8
-#define CSN 7
+#define CE 7
+#define CSN 8
 
 RF24 radio(CE, CSN);
 const byte endereco[][6] = {"1node", "2node", "3node"};

@@ -20,18 +20,19 @@
 #include "libs/NRF24L01_BIBLIOTECA.h"
 #include "libs/ARMAZENAMENTO_BIBLIOTECA.h"
 #define timeOut 10
+const byte address[6] = "00002";
 
 void setup()
 {
     Serial.begin(9600);
-
+    radio.openWritingPipe(address); 
     longRangeSettings();
-    setAddress(ADDRESS_0, ADDRESS_1);
+    //setAddress(ADDRESS_0, ADDRESS_1);
 }
 
 void loop() {
     bool teste = sendMessage();
     Serial.println(teste);
 
-    delay(1000);
+    //delay(1000);
 }

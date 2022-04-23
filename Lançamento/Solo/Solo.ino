@@ -17,12 +17,14 @@
 
 // Declaração de bibliotecas
 #include "libs/NRF24L01_BIBLIOTECA.h"
+const byte address[6] = "00002";
 
 void setup() {
   Serial.begin(9600);
 
   longRangeSettings();
-  setAddress(ADDRESS_1, ADDRESS_0);
+  radio.openReadingPipe(0, address); 
+  //setAddress(ADDRESS_1, ADDRESS_0);
 }
 
 void loop() {
