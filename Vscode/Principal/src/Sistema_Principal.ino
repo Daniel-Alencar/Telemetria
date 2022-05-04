@@ -19,21 +19,37 @@
 // Declaração de bibliotecas
 #include "libs/NRF24L01_BIBLIOTECA.h"
 #include "libs/ARMAZENAMENTO_BIBLIOTECA.h"
+#include <SoftwareSerial.h>
+
 #define timeOut 10
+
 const byte address[6] = "00002";
+SoftwareSerial monitorSerial(5, 6);
 
 void setup()
 {
+    monitorSerial.begin(9600);
     Serial.begin(9600);
+
     radio.begin();
     radio.openWritingPipe(address); 
     longRangeSettings();
-    //setAddress(ADDRESS_0, ADDRESS_1);
 }
 
 void loop() {
-    bool teste = sendMessage();
-    Serial.println(teste);
+    if (monitorSerial.available() > 0) {
+        String message = monitorSerial.readStringUntil('\n');
+        Serial.println(message);
 
-    //delay(1000);
+        // Verificação do cartão SD
+        writeOnSD(message);
+
+        // NRF24L01
+        char str[32];
+        message.toCharArray(str, 32);
+        bool teste = sendMessage(str);
+
+        Serial.println(message);
+        Serial.println(teste);
+    }
 }
