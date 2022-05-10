@@ -21,7 +21,7 @@
 #define CSN 7
 
 RF24 radio(CE, CSN);
-const byte endereco[][6] = {"1node", "2node", "3node"};
+const byte endereco[][6] = {"00002", "00001"};
 
 bool longRangeSettings()
 {
@@ -40,7 +40,7 @@ bool lowRangeSettings()
 void setAddress(int thisDevice, int anotherDevice)
 {
   radio.openWritingPipe(endereco[thisDevice]);
-  radio.openReadingPipe(1, endereco[anotherDevice]);
+  radio.openReadingPipe(0, endereco[anotherDevice]);
 }
 
 bool available()

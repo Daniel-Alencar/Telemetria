@@ -31,7 +31,7 @@ void setup() {
 
 void loop() {
    if(!notSent){
-     Serial.println("INICIADO!");
+     Serial.println("\nINICIADO!");
      notSent = true;
    }
   readMessage();

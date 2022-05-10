@@ -32,7 +32,7 @@ void setup()
     Serial.begin(9600);
 
     radio.begin();
-    radio.openWritingPipe(address); 
+    setAddress(0, 1);
     longRangeSettings();
 }
 
