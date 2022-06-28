@@ -28,12 +28,9 @@ void setup()
     radio.begin();
     radio.openWritingPipe(address); 
     longRangeSettings();
-    //setAddress(ADDRESS_0, ADDRESS_1);
 }
 
 void loop() {
     bool teste = sendMessage();
     Serial.println(teste);
-
-    //delay(1000);
 }

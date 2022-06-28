@@ -23,9 +23,8 @@ bool notSent = false;
 void setup() {
   Serial.begin(9600);
 
-  radio.begin();
-  radio.openReadingPipe(0, endereco[0]); 
-  radio.setPALevel(RF24_PA_HIGH);
+  longRangeSettings();
+  setAddress(ADDRESS_0, PIPE_0); 
 }
 
 void loop() {

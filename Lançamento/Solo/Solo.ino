@@ -23,8 +23,7 @@ void setup() {
   Serial.begin(9600);
 
   longRangeSettings();
-  radio.openReadingPipe(0, address); 
-  //setAddress(ADDRESS_1, ADDRESS_0);
+  radio.openReadingPipe(0, address);
 }
 
 void loop() {

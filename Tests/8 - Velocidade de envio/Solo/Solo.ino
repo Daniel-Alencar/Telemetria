@@ -24,7 +24,7 @@ void setup() {
   Serial.begin(9600);
 
   radio.begin();
-  radio.openReadingPipe(0, endereco[0]); 
+  radio.openReadingPipe(0, endereco[ADDRESS_0]); 
   radio.setPALevel(RF24_PA_HIGH);
 }
 

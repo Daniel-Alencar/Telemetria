@@ -61,9 +61,9 @@ void readMessage()
     char text[32] = "";
     radio.read(&text, sizeof(text));
 
-    Serial.println(">>");
+    // Serial.println(">>");
     Serial.println(text);
-    Serial.println("<<");
+    // Serial.println("<<");
   }
 }
 

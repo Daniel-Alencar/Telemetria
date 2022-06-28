@@ -3,6 +3,7 @@
   Sendo assim, optamos por enviar:
   Altitude(m),AltitudeFK,Velocidade(m/s),VelocidadeFK,Paraquedas
   000.00,000.00,000.00,000.00,0
+
   Com um total de:
   6+1+6+1+6+1+6+1+1 = 29 Bytes
 */
@@ -20,7 +21,7 @@
 #define CSN 8
 
 RF24 radio(CE, CSN);
-const byte endereco[][6] = {"1node", "2node", "3node"};
+const byte endereco[][6] = {"00002", "00001"};
 
 bool longRangeSettings()
 {
@@ -59,17 +60,15 @@ void readMessage()
   if(available()) {
     char text[32] = "";
     radio.read(&text, sizeof(text));
-
-   
-    Serial.println(text);
     
+    Serial.println(">>");
+    Serial.println(text);
+    Serial.println("<<");
   }
 }
 
-bool sendMessage()
+bool sendMessage(char *message)
 {
   radio.stopListening();
-
-  const char otherMessage[] = "000000,000.00,000.00,000.00,0";
-  return radio.write(&otherMessage, sizeof(otherMessage));
+  return radio.write(message, sizeof(*message) * strlen(message));
 }

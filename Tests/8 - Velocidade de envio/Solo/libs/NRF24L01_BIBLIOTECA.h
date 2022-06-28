@@ -17,8 +17,8 @@
 #define ADDRESS_1 1
 #define ADDRESS_2 2
 
-#define CE 8
-#define CSN 7
+#define CE 7
+#define CSN 8
 
 RF24 radio(CE, CSN);
 const byte endereco[][6] = {"00002", "00001"};
@@ -40,7 +40,7 @@ bool lowRangeSettings()
 void setAddress(int thisDevice, int anotherDevice)
 {
   radio.openWritingPipe(endereco[thisDevice]);
-  radio.openReadingPipe(0, endereco[anotherDevice]);
+  radio.openReadingPipe(1, endereco[anotherDevice]);
 }
 
 bool available()
@@ -60,10 +60,10 @@ void readMessage()
   if(available()) {
     char text[32] = "";
     radio.read(&text, sizeof(text));
-
-    Serial.println(">>");
+    
+    // Serial.println(">>");
     Serial.println(text);
-    Serial.println("<<");
+    // Serial.println("<<");
   }
 }
 

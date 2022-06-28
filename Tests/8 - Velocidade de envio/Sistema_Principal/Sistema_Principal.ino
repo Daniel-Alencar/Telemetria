@@ -19,48 +19,36 @@
 // Declaração de bibliotecas
 #include "libs/NRF24L01_BIBLIOTECA.h"
 #include "libs/ARMAZENAMENTO_BIBLIOTECA.h"
-#include <SoftwareSerial.h>
 
 #define timeOut 10
 
-float time1;
+float time1;  
 float time2;
-
-SoftwareSerial monitorSerial(5, 6);
 
 void setup()
 {
-    monitorSerial.begin(9600);
     Serial.begin(9600);
 
     radio.begin();
-    setAddress(0, 1);
-    longRangeSettings();
+    radio.setPALevel(RF24_PA_HIGH);
+    radio.openWritingPipe(endereco[ADDRESS_0]);
 }
 
 void loop() {
-    if (monitorSerial.available() > 0) {
-        String message = monitorSerial.readStringUntil('\n');
-        Serial.println(message);
+    String message = "000000,000.00,000.00,000.00,0";   
+    Serial.println(message);
+    
+    char str[32];
+    message.toCharArray(str, 32);
+    Serial.println(str);
 
-        // Verificação do cartão SD
-        time1 = millis();
-        writeOnSD(message);
-        time2 = millis();
+    time1 = millis();
+    bool teste = sendMessage(str);
+    time2 = millis();
 
-        Serial.prinln(time2 - time1);
+    Serial.print("RF: ");
+    Serial.println(time2 - time1);
 
-        // NRF24L01
-        char str[32];
-        message.toCharArray(str, 32);
+    Serial.println(teste);
 
-        time1 = millis();
-        bool teste = sendMessage(str);
-        time2 = millis();
-
-        Serial.prinln(time2 - time1);
-
-        Serial.println(message);
-        Serial.println(teste);
-    }
 }
