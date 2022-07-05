@@ -14,16 +14,23 @@
     - 10 (16): CS_PIN (SD)
     - 00 (02): RX (Comunicação serial)
     - 01 (03): TX (Comunicação serial)
+
+    - 05 (11): RX (monitorSerial)
+    - 06 (12): TX (monitorSerial)
 */
 
 // Declaração de bibliotecas
 #include "libs/NRF24L01_BIBLIOTECA.h"
 #include "libs/ARMAZENAMENTO_BIBLIOTECA.h"
+#include <SoftwareSerial.h>
 
 #define timeOut 10
 
+SoftwareSerial monitorSerial(5, 6);
+
 void setup()
 {
+    monitorSerial.begin(9600);
     Serial.begin(9600);
 
     longRangeSettings();
@@ -31,12 +38,17 @@ void setup()
 }
 
 void loop() {
-    String message = "000000,000.00,000.00,000.00,0";   
-    Serial.println(message);
-    
-    char str[32];
-    message.toCharArray(str, 32);
 
-    bool teste = sendMessage(str);
-    Serial.println(teste);
+    if (monitorSerial.available() > 0) {
+        String message = monitorSerial.readStringUntil('\n');
+        Serial.println(message);
+        
+        writeOnSD(message);
+
+        char str[32];
+        message.toCharArray(str, 32);
+
+        bool teste = sendMessage(str);
+        Serial.println(teste);
+    }
 }
