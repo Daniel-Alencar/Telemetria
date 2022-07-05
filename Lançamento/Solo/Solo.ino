@@ -11,21 +11,24 @@
     - 13 (19): SCK (NRF)
     - 08 (14): CSN (NRF)
     - 07 (13): CE (NRF)
-    
-    - 04 (06): ON_BUTTON (Botão de ativação do paraquedas)
 */
 
 // Declaração de bibliotecas
 #include "libs/NRF24L01_BIBLIOTECA.h"
-const byte address[6] = "00002";
+
+bool notSent = false;
 
 void setup() {
   Serial.begin(9600);
 
   longRangeSettings();
-  radio.openReadingPipe(0, address);
+  setAddress(ADDRESS_0, PIPE_0); 
 }
 
 void loop() {
+  if(!notSent){
+    Serial.println("\nINICIADO!");
+    notSent = true;
+  }
   readMessage();
 }

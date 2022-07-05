@@ -8,10 +8,10 @@ bool settingsSD()
 {
   if (SD.begin())
   {
-    if (myFile)
+    myFile = SD.open("data.txt", FILE_WRITE);
+    if(myFile)
     {
-      myFile = SD.open("data.txt", FILE_WRITE);
-      myFile.println("TEMPO, ALTITUDE, AltitudeFk, AY, Temperatura");
+      myFile.println("Altitude(m), AltitudeFK, Velocidade(m/s), VelocidadeFK, Paraquedas");
       myFile.close();
       return true;
     }

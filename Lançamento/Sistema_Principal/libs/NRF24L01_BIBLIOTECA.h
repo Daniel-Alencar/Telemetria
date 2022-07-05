@@ -15,13 +15,19 @@
 
 #define ADDRESS_0 0
 #define ADDRESS_1 1
-#define ADDRESS_2 2
+
+#define PIPE_1 1
+#define PIPE_2 2
+#define PIPE_3 3
+#define PIPE_4 4
+#define PIPE_5 5
+#define PIPE_0 0
 
 #define CE 8
 #define CSN 7
 
 RF24 radio(CE, CSN);
-const byte endereco[][6] = {"1node", "2node", "3node"};
+const byte endereco[][6] = {"00001", "00002"};
 
 bool longRangeSettings()
 {
@@ -37,10 +43,10 @@ bool lowRangeSettings()
   return true;
 }
 
-void setAddress(int thisDevice, int anotherDevice)
+void setAddress(int pipeAddressIndex, int pipe)
 {
-  radio.openWritingPipe(endereco[thisDevice]);
-  radio.openReadingPipe(1, endereco[anotherDevice]);
+  radio.openWritingPipe(endereco[pipeAddressIndex]);
+  radio.openReadingPipe(pipe, endereco[pipeAddressIndex]);
 }
 
 bool available()
@@ -61,16 +67,12 @@ void readMessage()
     char text[32] = "";
     radio.read(&text, sizeof(text));
 
-    Serial.println(">>");
     Serial.println(text);
-    Serial.println(">>");
   }
 }
 
-bool sendMessage()
+bool sendMessage(char *message)
 {
   radio.stopListening();
-
-  const char otherMessage[] = "000000,000.00,000.00,000.00,0";
-  return radio.write(&otherMessage, sizeof(otherMessage));
+  return radio.write(message, sizeof(*message) * strlen(message));
 }

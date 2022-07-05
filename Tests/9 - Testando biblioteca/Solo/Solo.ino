@@ -11,8 +11,6 @@
     - 13 (19): SCK (NRF)
     - 08 (14): CSN (NRF)
     - 07 (13): CE (NRF)
-    
-    - 04 (06): ON_BUTTON (Botão de ativação do paraquedas)
 */
 
 // Declaração de bibliotecas
