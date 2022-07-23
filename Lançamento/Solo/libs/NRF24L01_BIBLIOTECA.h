@@ -68,6 +68,8 @@ void readMessage()
     radio.read(&text, sizeof(text));
     
     Serial.println(text);
+  } else {
+    serial.println("0,0,0,0,0");
   }
 }
 
